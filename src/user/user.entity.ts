@@ -7,11 +7,11 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({
-        comment: '用户uuid',
+    @Column('varchar', {
+        generated: 'uuid',
+        comment: '用户 uuid',
     })
-    @Generated('uuid')
-    uuid: number;
+    uuid: string;
 
     @Column('varchar', {
         length: 40,

@@ -2,34 +2,40 @@ import { Response, NextFunction, Request } from 'express';
 import { JwtService } from '@nestjs/jwt';
 import { JwtRequest } from './interface/jwt-request.interface';
 import { TokenException } from '../exception/token.exception';
-import { jwtConstants } from '../config/constants';
+import { ConfigService } from '../config/config.service';
 
-const jwtService = new JwtService({
-    secret: jwtConstants.secret,
-});
+export function jwtPassport(tokenSecrt: string) {
+    // 实例化 jwt
+    const jwtService = new JwtService({
+        secret: tokenSecrt,
+    });
 
-export function jwtPassport(req: JwtRequest, res: Response, next: NextFunction) {
-    const token = fromAuthHeaderAsBearerToken(req);
-    if (token) {
-        try {
-            const decode = jwtService.verify(token);
-            req.user = decode;
-        } catch (error) {
-            if (error.name === 'JsonWebTokenError') {
-                throw new TokenException({
-                    code: 10011,
-                    message: '令牌错误',
-                });
+    /** 真正的 token 处理中间函数 */
+    return (req: JwtRequest, res: Response, next: NextFunction) => {
+        const token = fromAuthHeaderAsBearerToken(req);
+        if (token) {
+            try {
+                const decode = jwtService.verify(token);
+                req.user = decode;
+            } catch (error) {
+                if (error.name === 'JsonWebTokenError') {
+                    throw new TokenException({
+                        code: 10011,
+                        message: '令牌错误',
+                    });
+                }
+                if (error.name === 'TokenExpiredError') {
+                    throw new TokenException({
+                        code: 10010,
+                        message: '账户令牌过期',
+                    });
+                }
             }
-            if (error.name === 'TokenExpiredError') {
-                throw new TokenException({
-                    code: 10010,
-                    message: '账户令牌过期',
-                });
-            }
+        } else {
+            req.user = null;
         }
-    }
-    next();
+        next();
+    };
 }
 
 /** 获取 bearer_token */

@@ -5,9 +5,14 @@ export interface Login {
     verifyCode?: string;
 }
 
-export interface TokenResult {
-    readonly uuid: number;
+export interface UserInfo {
+    readonly uuid: string;
     readonly username: string;
-    readonly access_token: string;
-    readonly refresh_token?: string;
 }
+
+export interface TokenResult {
+    readonly accessToken: string;
+    readonly refreshToken: string;
+}
+
+export interface UserAuthResult extends UserInfo, TokenResult {}

@@ -82,6 +82,6 @@ export class UserService {
         if (!user) {
             throw new UserException({ code: 20003, message: '用户不存咋' });
         }
-        return new User(user);
+        return user;
     }
 }

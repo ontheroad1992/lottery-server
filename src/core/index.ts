@@ -22,11 +22,11 @@ export async function core(app: INestApplication): Promise<void> {
     /** 安全设置 */
     safeOptions(app);
     /** 令牌解析 */
-    app.use(jwtPassport);
+    app.use(jwtPassport(config.TOKEN_SECRET));
     /** 参数校验管道 */
     app.useGlobalPipes(validationPip);
     /** 路由守卫 */
     app.useGlobalGuards(new RolesGuard());
     /** 端口号 */
-    await app.listen(config.port);
+    await app.listen(config.PORT);
 }

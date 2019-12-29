@@ -27,6 +27,9 @@ export class ConfigService {
             PORT: Joi.number().default(3000),
             API_AUTH_ENABLED: Joi.boolean().required(),
             SWAGGER_ENABLED: Joi.boolean().required(),
+            TOKEN_SECRET: Joi.string().required(),
+            TOKEN_ACCESS_EXPIRES_IN: Joi.string().required(),
+            TOKEN_REFRESH_EXPIRES_IN: Joi.string().required(),
         });
         const { error, value: validatedEnvConfig } = envVarsSchema.validate(envConfig);
         if (error) {
@@ -41,7 +44,19 @@ export class ConfigService {
     }
 
     /** 端口号 */
-    get port(): number {
+    get PORT(): number {
         return Number(this.envConfig.PORT);
+    }
+
+    get TOKEN_SECRET(): string {
+        return String(this.envConfig.TOKEN_SECRET);
+    }
+
+    get TOKEN_ACCESS_EXPIRES_IN(): string {
+        return String(this.envConfig.TOKEN_ACCESS_EXPIRES_IN);
+    }
+
+    get TOKEN_REFRESH_EXPIRES_IN(): string {
+        return String(this.envConfig.TOKEN_REFRESH_EXPIRES_IN);
     }
 }
