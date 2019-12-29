@@ -7,8 +7,10 @@ import { jwtPassport } from './middleware/jwt-passport.middleware';
 import { swaggerOptions } from './swagger/swagger.options';
 import { safeOptions } from './safe/safe.options';
 import * as compression from 'compression';
+import { ConfigService } from './config/config.service';
+const config = new ConfigService();
 
-export function core(app: INestApplication): void {
+export async function core(app: INestApplication): Promise<void> {
     /** 压缩 */
     app.use(compression());
     /** 日志中间件 */
@@ -16,7 +18,7 @@ export function core(app: INestApplication): void {
     /** 异常过滤 */
     app.useGlobalFilters(new AllExceptionFiliter());
     /** swagger */
-    swaggerOptions(app);
+    if (config.isSwaggerEnabled) { swaggerOptions(app); }
     /** 安全设置 */
     safeOptions(app);
     /** 令牌解析 */
@@ -25,4 +27,6 @@ export function core(app: INestApplication): void {
     app.useGlobalPipes(validationPip);
     /** 路由守卫 */
     app.useGlobalGuards(new RolesGuard());
+    /** 端口号 */
+    await app.listen(config.port);
 }

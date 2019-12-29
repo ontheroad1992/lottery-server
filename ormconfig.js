@@ -6,11 +6,11 @@ module.exports = {
     // 端口
     port: 3306,
     // 用户名
-    username: 'gohash',
+    username: 'base',
     // 密码
-    password: 'GhBtw6bb5G4jZkmP',
+    password: '123456',
     // 数据库名
-    database: 'gohash',
+    database: 'base',
     // 要加载并用于此连接的实体
     entities: ['dist/**/*.entity{.ts,.js}'],
     // 表名统一前缀
@@ -18,7 +18,7 @@ module.exports = {
     // 自动创建数据库，注意会自动清除之前创建好的数据
     synchronize: true,
     // 开启日志
-    logging: true,
+    logging: false,
     // 主从复制
     // replication: {
     //     master: {
@@ -61,4 +61,4 @@ module.exports = {
     //      */
     //     selector: "ORDER"
     // }
-}
+};
