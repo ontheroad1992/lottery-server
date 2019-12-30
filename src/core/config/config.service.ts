@@ -26,9 +26,14 @@ export class ConfigService {
                 .default('development'),
             PORT: Joi.number().default(3000),
             API_AUTH_ENABLED: Joi.boolean().required(),
+            // 是否开始 swagger
             SWAGGER_ENABLED: Joi.boolean().required(),
+            /** token */
+            // 密钥
             TOKEN_SECRET: Joi.string().required(),
+            // 账号 token 期限
             TOKEN_ACCESS_EXPIRES_IN: Joi.string().required(),
+            // 刷新 token 期限
             TOKEN_REFRESH_EXPIRES_IN: Joi.string().required(),
         });
         const { error, value: validatedEnvConfig } = envVarsSchema.validate(envConfig);
