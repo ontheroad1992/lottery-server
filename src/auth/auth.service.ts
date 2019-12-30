@@ -18,8 +18,8 @@ export class AuthService {
      * @param username string
      */
     async login(username: string): Promise<UserAuthResult> {
-        const { uuid, roles } = await this.userServer.validateUser(username);
-        const tokens = this.generateTokens(username, uuid, roles);
+        const { uuid, roles, id } = await this.userServer.validateUser(username);
+        const tokens = this.generateTokens(id, username, uuid, roles);
         return {
             username,
             uuid,
@@ -59,22 +59,23 @@ export class AuthService {
             });
         }
         // 检查 uuid 是否存在
-        const { username, roles } = await this.userServer.findUserFromUUid(uuid);
+        const { username, roles, id } = await this.userServer.findUserFromUUid(uuid);
         // 令牌组
-        const tokens = this.generateTokens(username, uuid, roles);
+        const tokens = this.generateTokens(id, username, uuid, roles);
         return tokens;
     }
 
     /**
      * 生成令牌组
+     * @param id 用户id
      * @param username 用户名
      * @param uuid 用户uuid
      * @param roles 角色组
      */
-    private generateTokens(username: string, uuid: string, roles: string[]): TokenResult {
+    private generateTokens(id, username: string, uuid: string, roles: string[]): TokenResult {
         // 账户 token
         const accessToken = this.jwtService.sign({
-            username, uuid, roles,
+           id, username, uuid, roles,
         }, {
             expiresIn: this.configService.TOKEN_ACCESS_EXPIRES_IN,
         });

@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { Connection } from 'typeorm';
 import { ConfigService } from './core/config/config.service';
 import { ConfigModule } from './core/config/config.module';
+import { LotteryModule } from './lottery/lottery.module';
 
 @Module({
     imports: [
@@ -34,6 +35,7 @@ import { ConfigModule } from './core/config/config.module';
         }),
         UserModule,
         AuthModule,
+        LotteryModule,
     ],
 })
 export class AppModule {

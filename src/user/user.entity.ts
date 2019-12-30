@@ -1,9 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Generated, VersionColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { Exclude } from 'class-transformer';
 
 @Entity()
 export class User {
-    @Exclude()
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -23,6 +22,7 @@ export class User {
     @Column('varchar', {
         length: 40,
         nullable: true,
+        unique: true,
         comment: '用户昵称',
     })
     nickname: string;
@@ -32,6 +32,7 @@ export class User {
     })
     roles?: string[];
 
+    @Exclude()
     @CreateDateColumn({ name: 'create_time' })
     createTime?: Date;
 
