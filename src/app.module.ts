@@ -13,15 +13,15 @@ import { ConfigModule } from './core/config/config.module';
                 // 数据库类型
                 type: 'mysql',
                 // 链接地址
-                host: 'localhost',
+                host: '127.0.0.1',
                 // 端口
                 port: 3306,
                 // 用户名
-                username: 'base',
+                username: 'lottery',
                 // 密码
                 password: '123456',
                 // 数据库名
-                database: 'base',
+                database: 'lottery',
                 // 要加载并用于此连接的实体
                 entities: ['dist/**/*.entity{.ts,.js}'],
                 // 表名统一前缀

@@ -16,10 +16,9 @@ export class AuthService {
     /**
      * 用户登录
      * @param username string
-     * @param password string
      */
-    async login(username: string, password: string): Promise<UserAuthResult> {
-        const { uuid, roles } = await this.userServer.validateUser(username, password);
+    async login(username: string): Promise<UserAuthResult> {
+        const { uuid, roles } = await this.userServer.validateUser(username);
         const tokens = this.generateTokens(username, uuid, roles);
         return {
             username,

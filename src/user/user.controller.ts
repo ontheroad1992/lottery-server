@@ -18,8 +18,8 @@ export class UserController {
         description: '',
     })
     create(@Body() createUserDto: CreateUserDto) {
-        const { username, password } = createUserDto;
-        return this.userServer.create(username, password);
+        const { username, nickname } = createUserDto;
+        return this.userServer.create(username, nickname);
     }
 
     @UseInterceptors(ClassSerializerInterceptor)

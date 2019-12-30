@@ -25,18 +25,12 @@ export class User {
         nullable: true,
         comment: '用户昵称',
     })
-    nickname?: string;
+    nickname: string;
 
     @Column('simple-array', {
         comment: '用户角色',
     })
     roles?: string[];
-
-    @Exclude()
-    @Column('varchar', {
-        comment: '用户密码',
-    })
-    password: string;
 
     @CreateDateColumn({ name: 'create_time' })
     createTime?: Date;

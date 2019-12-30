@@ -7,12 +7,8 @@ export class CreateUserDto {
     @IsString({ message: '账户名必须是字符串类型' })
     readonly username: string;
 
-    @ApiModelProperty({ description: '密码长度必须是 6 - 18 位' })
-    @IsString({ message: '密码必须是字符串类型' })
-    @Length(6, 18, { message: '密码长度必须是 6 - 18 位' })
-    readonly password: string;
-
-    @ApiModelProperty({ description: '验证码必须是字符串类型，长度为6', pattern: '/\d{6}/' })
-    @Matches(/\d{6}/, { message: '验证码必须是字符串类型，长度为6' })
-    readonly smsCode: string;
+    @ApiModelProperty({ description: '长度为 2 - 18 位' })
+    @IsString({ message: '昵称/姓名，格式不对' })
+    @Length(2, 18, { message: '长度为 2 - 18 位' })
+    readonly nickname: string;
 }

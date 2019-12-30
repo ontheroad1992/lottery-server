@@ -14,15 +14,18 @@ export function safeOptions(app: INestApplication) {
     /** 开启跨域 */
     app.enableCors();
     /** CSRF 防护 */
-    app.use(bodyParser.urlencoded({ extended: false }));
-    app.use(cookieParser());
-    app.use(csurf({ cookie: true, value: (req) => {
-        return req.cookies[XSRF_TOKEN];
-    } }));
-    app.use((req: Request, res: Response, next: NextFunction) => {
-        res.cookie(XSRF_TOKEN, req.csrfToken());
-        next();
-    });
+    // app.use((req: Request, res: Response, next: NextFunction) => {
+    //     res.cookie(XSRF_TOKEN, req.csrfToken());
+    //     next();
+    // });
+    // app.use(bodyParser.urlencoded({ extended: false }));
+    // app.use(cookieParser());
+    // app.use(csurf({
+    //     cookie: true,
+    //     value: (req) => {
+    //         return req.cookies[XSRF_TOKEN];
+    //     },
+    // }));
     /** 限速 */
     app.use(
         rateLimit({
