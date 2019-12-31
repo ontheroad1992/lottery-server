@@ -3,16 +3,42 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Lottery } from './lottery.entity';
 import { Repository, Not } from 'typeorm';
 import { LotteryException } from './lottery.exception';
-import { LotteryResult } from './interfaces/lottery-result.interface';
-import { setLotteries, getLotteries } from '../utils/redis-client';
-import { async } from 'rxjs/internal/scheduler/async';
+import { setLotteries, getLotteries, getLotteryCount } from '../utils/redis-client';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class LotteryService {
     constructor(
         @InjectRepository(Lottery)
         private readonly lotteryRepository: Repository<Lottery>,
+        private readonly userServer: UserService,
     ) {}
+
+    public async findCount() {
+        const count = await this.lotteryRepository.count();
+        const wait = await getLotteryCount();
+        return {
+            count,
+            wait,
+        };
+    }
+
+    public async findState(userId: number) {
+        const lottery = await this.lotteryRepository.findOne({ userId });
+        if (!lottery) {
+            return { state: 0 };
+        } else {
+            if (!lottery.sideUserId) {
+                return { state: 1 };
+            } else {
+                const sideUser = await this.findUserFromSideUserId(lottery.sideUserId);
+                return {
+                    ...sideUser,
+                    state: 2,
+                };
+            }
+        }
+    }
 
     public async paly(userId: number) {
         const lottery = await this.findLotteryFormUserId(userId);
@@ -37,7 +63,19 @@ export class LotteryService {
             return id !== sideUserId;
         });
         await setLotteries(unLotteries);
+        // 获取赠送人的信息
+        const sideUser = await this.findUserFromSideUserId(sideUserId);
+        return sideUser;
+    }
 
+    private async findUserFromSideUserId(sideUserId: number) {
+        const sideLottery = await this.lotteryRepository.findOne({ userId: sideUserId });
+        const { nickname, iconUrl } = await this.userServer.findUserFromUserId(sideUserId);
+        return {
+            ...sideLottery,
+            nickname,
+            iconUrl,
+        };
     }
 
     private async lottering(userId: number, unLotteries): Promise<number> {

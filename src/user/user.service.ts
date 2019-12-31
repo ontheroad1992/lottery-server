@@ -11,6 +11,11 @@ export class UserService {
         private readonly usersRepository: Repository<User>,
     ) {}
 
+    public async findUserFromUserId(id: number): Promise<User> {
+        const user = await this.usersRepository.findOne({ id });
+        return user;
+    }
+
     /**
      * 校验用户是否正确
      * @param username 用户名

@@ -3,7 +3,7 @@
  * @Author: ontheroad1992
  * @Date: 2019-09-18 11:49:43
  * @LastEditors  : ontheroad1992
- * @LastEditTime : 2019-12-31 07:07:37
+ * @LastEditTime : 2019-12-31 11:14:10
  */
 'use strict';
 
@@ -26,4 +26,9 @@ export const getLotteries = async (): Promise<number []> => {
   const lotteries = await hmgetAsync('lotteries', 'un');
   if (!lotteries[0]) { return []; }
   return JSON.parse(lotteries);
+};
+
+export const getLotteryCount = async () => {
+  const count = await hmgetAsync('lotteries', 'count');
+  return count[0];
 };

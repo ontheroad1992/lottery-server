@@ -1,4 +1,4 @@
-import { Controller, Req, Post, HttpCode, Body } from '@nestjs/common';
+import { Controller, Req, Post, HttpCode, Body, Get } from '@nestjs/common';
 import { ApiUseTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { Roles } from '../core/decorator/roles.decorator';
 import { LotteryService } from './lottery.service';
@@ -27,6 +27,20 @@ export class LotteryController {
     async paly(@Req() req) {
         const { id } = req.user;
         const data = await this.lotteryServer.paly(id);
+        return data;
+    }
+
+    @Post('state')
+    @Roles('user')
+    async state(@Req() req) {
+        const { id } = req.user;
+        const data = await this.lotteryServer.findState(id);
+        return data;
+    }
+
+    @Post('count')
+    async count() {
+        const data = await this.lotteryServer.findCount();
         return data;
     }
 }

@@ -27,6 +27,15 @@ export class User {
     })
     nickname: string;
 
+    @Column('varchar', {
+        length: 255,
+        name: 'icon_url',
+        nullable: true,
+        unique: true,
+        comment: '用户图片',
+    })
+    iconUrl?: string;
+
     @Column('simple-array', {
         comment: '用户角色',
     })
