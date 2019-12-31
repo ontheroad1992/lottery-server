@@ -11,7 +11,7 @@ module.exports = {
       // 是否监听文件的变动
       watch: true,
       // 监听时忽略某些文件
-      ignore_watch: ['node_modules', 'logs', 'pm2_logs'],
+      ignore_watch: ['node_modules', 'logs', 'pm2_logs', 'dist'],
       // 超过指定内存则重启
       max_memory_restart: '1G',
       // 环境变量
