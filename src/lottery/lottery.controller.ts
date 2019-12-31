@@ -19,4 +19,14 @@ export class LotteryController {
         const { comments } = joinLotteryDto;
         return this.lotteryServer.join(id, comments);
     }
+
+    @Post('paly')
+    @Roles('user')
+    @ApiBearerAuth()
+    @ApiOperation({ title: '开始抽奖' })
+    async paly(@Req() req) {
+        const { id } = req.user;
+        const data = await this.lotteryServer.paly(id);
+        return data;
+    }
 }

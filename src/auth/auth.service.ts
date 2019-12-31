@@ -18,11 +18,12 @@ export class AuthService {
      * @param username string
      */
     async login(username: string): Promise<UserAuthResult> {
-        const { uuid, roles, id } = await this.userServer.validateUser(username);
+        const { uuid, roles, id, nickname } = await this.userServer.validateUser(username);
         const tokens = this.generateTokens(id, username, uuid, roles);
         return {
             username,
             uuid,
+            nickname,
             ...tokens,
         };
     }

@@ -8,6 +8,7 @@ export interface Login {
 export interface UserInfo {
     readonly uuid: string;
     readonly username: string;
+    readonly nickname: string;
 }
 
 export interface TokenResult {

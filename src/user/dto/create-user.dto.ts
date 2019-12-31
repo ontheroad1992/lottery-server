@@ -7,8 +7,8 @@ export class CreateUserDto {
     @IsString({ message: '账户名必须是字符串类型' })
     readonly username: string;
 
-    @ApiModelProperty({ description: '长度为 2 - 18 位' })
-    @IsString({ message: '昵称/姓名，格式不对' })
-    @Length(2, 18, { message: '长度为 2 - 18 位' })
+    @ApiModelProperty({ description: '姓名必须是中文', pattern: '/^[\u4e00-\u9fa5]\d{1,10}$/' })
+    @Matches(/^[\u4e00-\u9fa5]{1,10}$/, { message: '姓名必须是中文' })
+    @IsString({ message: '用户昵必须是字符串类型' })
     readonly nickname: string;
 }

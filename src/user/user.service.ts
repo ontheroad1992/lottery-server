@@ -43,17 +43,33 @@ export class UserService {
     /**
      * 检查用户是否被注册
      * @param username 用户名
+     * @param nickname 姓名
      */
-    public async checkUserFromUsername(username: string): Promise<void> {
-        const user = this.findUserFromUsername(username);
-        if (user) {
-            throw new UserException({ code: 20002, message: '用户已经存在' });
+    public async checkUserFromUsername(username: string, nickname: string): Promise<void> {
+        if (username) {
+            const user = await this.findUserFromUsername(username);
+            if (user) {
+                throw new UserException({ code: 20002, message: '用户已经存在' });
+            }
         }
+        if (nickname) {
+            const user = await this.findUserFromNickname(nickname);
+            if (user) {
+                throw new UserException({ code: 20003, message: '姓名已经存在' });
+            }
+        }
+    }
+
+    private async findUserFromNickname(nickname: string): Promise<User> {
+        const user = await this.usersRepository.findOne({
+            where: { nickname },
+        });
+        return user;
     }
 
     /**
      * 根据用户名查找用户信息
-     * @param username 用户名
+     * @param username 用户名 / 手机号
      */
     private async findUserFromUsername(username: string): Promise<User> {
         const user = await this.usersRepository.findOne({

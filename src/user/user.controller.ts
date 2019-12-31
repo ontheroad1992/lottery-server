@@ -44,7 +44,7 @@ export class UserController {
         description: '',
     })
     check(@Body() checkUserDto: CheckUserDto) {
-        const username = checkUserDto.username;
-        return this.userServer.checkUserFromUsername(username);
+        const { username, nickname } = checkUserDto;
+        return this.userServer.checkUserFromUsername(username, nickname);
     }
 }
