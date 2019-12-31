@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: 'nest-server',
-      script: 'npm run start',
+      script: 'npm run start:prod',
       // cwd: '/www/wwwroot/cms-server',
       // 启动实例
       instances: 1,
